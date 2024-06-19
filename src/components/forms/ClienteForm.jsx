@@ -1,97 +1,140 @@
-import { useState } from 'react';
-import './style.css'; 
+import { useState } from "react";
+import "./style.css";
+import { useForm } from "@tanstack/react-form";
 
 const ClienteForm = () => {
-    const [id, setId] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [direccion, setDireccion] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [email, setEmail] = useState('');
+  const form = useForm({
+    defaultValues: {
+      nombre: "",
+      dirrecion: "",
+      telefono: "",
+      correo: ""
+    },
+    onSubmit: async ({ value }) => {
+      // Do something with form data
+      console.log(value);
+    },
+  });
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const nuevoCliente = {
-            id,
-            nombre,
-            direccion,
-            telefono,
-            email
-        };
-        console.log('Cliente agregado:', nuevoCliente);
-
-        // Limpiar los campos
-        setId('');
-        setNombre('');
-        setDireccion('');
-        setTelefono('');
-        setEmail('');
-    };
-
-    const handleCancel = () => {
-        // Limpiar los campos
-        setId('');
-        setNombre('');
-        setDireccion('');
-        setTelefono('');
-        setEmail('');
-    };
-
-    return (
-        <div className="cliente-form-container">
-            <h2 className="form-title">Agregar Cliente</h2>
-            <form onSubmit={handleSubmit} className="form">
-                <div className="form-group">
-                    <label>ID:</label>
-                    <input
-                        type="text"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Nombre:</label>
-                    <input
-                        type="text"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Dirección:</label>
-                    <input
-                        type="text"
-                        value={direccion}
-                        onChange={(e) => setDireccion(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Teléfono:</label>
-                    <input
-                        type="tel"
-                        value={telefono}
-                        onChange={(e) => setTelefono(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="buttons">
-                    <button type="submit" className="btn-agregar">Agregar Cliente</button>
-                    <button type="button" className="btn-cancelar" onClick={handleCancel}>Cancelar</button>
-                </div>
-            </form>
+  return (
+    <div className="">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+        className="bg-white p-8 rounded-lg shadow-lg w-full max-w-[500px]"
+      >
+        <div className="mb-4">
+          <form.Field
+            name="nombre"
+            children={(field) => (
+              <div className="text-left">
+                <label
+                  htmlFor={field.name}
+                  className="text-[14px] ml-2 -mb-2 text-blue-500"
+                >
+                  Nombre *
+                </label>
+                <input
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Ingrese el nombre del cliente"
+                />
+              </div>
+            )}
+          />
         </div>
-    );
+        <div className="mb-4">
+          <form.Field
+            name="direccion"
+            children={(field) => (
+              <div className="text-left">
+                <label
+                  htmlFor={field.name}
+                  className="text-[14px] ml-2 -mb-2 text-blue-500"
+                >
+                  Dirección
+                </label>
+                <input
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Ingrese la dirección del cliente"
+                />
+              </div>
+            )}
+          />
+        </div>
+        <div className="mb-4">
+          <form.Field
+            name="telefono"
+            children={(field) => (
+              <div className="text-left">
+                <label
+                  htmlFor={field.name}
+                  className="text-[14px] ml-2 -mb-2 text-blue-500"
+                >
+                  Telefono
+                </label>
+                <input
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Ingrese el telefono del cliente"
+                />
+              </div>
+            )}
+          />
+        </div>
+        <div className="mb-4">
+          <form.Field
+            name="correo"
+            children={(field) => (
+              <div className="text-left">
+                <label
+                  htmlFor={field.name}
+                  className="text-[14px] ml-2 -mb-2 text-blue-500"
+                >
+                  Correo Electronico
+                </label>
+                <input
+                  name={field.name}
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  placeholder="Ingrese la correo electronico del cliente"
+                />
+              </div>
+            )}
+          />
+        </div>
+        <div className="flex justify-between gap-2">
+        <button
+          type="submit"
+          className="w-full bg-[#5D9CEC] text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+        >
+          Agregar
+        </button>
+        <button
+          type="button"
+          className="w-full border-red-600 border-[1px]  p-2 rounded transition duration-200 text-red-600"
+        >
+          Cancelar
+        </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default ClienteForm;
