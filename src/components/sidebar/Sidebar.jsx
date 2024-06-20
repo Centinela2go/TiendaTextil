@@ -3,8 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
-  HomeIcon,
+  HomeIcon
 } from "@heroicons/react/16/solid";
+
+
 
 function GetNameSidebar(link) {
   switch (link) {
@@ -35,28 +37,30 @@ export default function SideBar({ children }) {
     <div className="">
       <div className="flex h-screen w-full">
         <div
-          className={`fixed inset-y-0 left-0 bg-gray-800 transition-all duration-300 ${
-            open ? "w-64" : "w-16"
+          className={`fixed inset-y-0 left-0 bg-white transition-all duration-300 ${
+            open ? "w-72" : "w-24"
           }`}
         >
-          <div className="flex items-center justify-between h-16 px-4 bg-gray-900">
-            <button onClick={handleDrawerToggle} className="text-white">
+          <div className="flex items-center justify-between h-24 px-4 bg-white">
+            <button onClick={handleDrawerToggle} className="text-indigo-700">
               {open ? (
-                <ChevronLeftIcon className="h-6 w-6" />
+                <ChevronLeftIcon className="h-9 w-9" />
               ) : (
-                <ChevronRightIcon className="h-6 w-6" />
+                <ChevronRightIcon className="h-9 w-9" />
               )}
             </button>
           </div>
-          <nav className="mt-10">
+          <nav className="flex flex-col">
             <Link
               to="/"
-              className="flex items-center px-4 py-2 text-white hover:bg-gray-700"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${ open ? "px-4": "justify-center" }`}
             >
-              <HomeIcon className="h-6 w-6 transition-transform duration-300" />
+              <div>
+                <HomeIcon className="h-9 w-9 transition-transform duration-300" />
+              </div>
               <span
-                className={`ml-4 transition-opacity duration-300 ${
-                  open ? "opacity-100" : "opacity-0"
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
                 Ver orden de venta
@@ -64,12 +68,14 @@ export default function SideBar({ children }) {
             </Link>
             <Link
               to="/creditos"
-              className="flex items-center px-4 py-2 text-white hover:bg-gray-700"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${ open ? "px-4": "justify-center" }`}
             >
-              <ChevronLeftIcon className="h-6 w-6 transition-transform duration-300" />
+              <div>
+                <HomeIcon className="h-9 w-9 transition-transform duration-300" />
+              </div>
               <span
-                className={`ml-4 transition-opacity duration-300 ${
-                  open ? "opacity-100" : "opacity-0"
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
                 Dashboard
@@ -77,12 +83,14 @@ export default function SideBar({ children }) {
             </Link>
             <Link
               to="/productos"
-              className="flex items-center px-4 py-2 text-white hover:bg-gray-700"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${ open ? "px-4": "justify-center" }`}
             >
-              <ChevronLeftIcon className="h-6 w-6 transition-transform duration-300" />
+              <div>
+                <HomeIcon className="h-9 w-9 transition-transform duration-300" />
+              </div>
               <span
-                className={`ml-4 transition-opacity duration-300 ${
-                  open ? "opacity-100" : "opacity-0"
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
                 Registro Productos
@@ -90,12 +98,14 @@ export default function SideBar({ children }) {
             </Link>
             <Link
               to="/clientes"
-              className="flex items-center px-4 py-2 text-white hover:bg-gray-700"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${ open ? "px-4": "justify-center" }`}
             >
-              <ChevronLeftIcon className="h-6 w-6 transition-transform duration-300" />
+              <div>
+                <HomeIcon className="h-9 w-9 transition-transform duration-300" />
+              </div>
               <span
-                className={`ml-4 transition-opacity duration-300 ${
-                  open ? "opacity-100" : "opacity-0"
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
                 Registro Clientes
@@ -103,12 +113,14 @@ export default function SideBar({ children }) {
             </Link>
             <Link
               to="/ventas"
-              className="flex items-center px-4 py-2 text-white hover:bg-gray-700"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${ open ? "px-4": "justify-center" }`}
             >
-              <ChevronLeftIcon className="h-6 w-6 transition-transform duration-300" />
+              <div>
+                <HomeIcon className="h-9 w-9 transition-transform duration-300" />
+              </div>
               <span
-                className={`ml-4 transition-opacity duration-300 ${
-                  open ? "opacity-100" : "opacity-0"
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
                 Registro de orden
@@ -119,20 +131,19 @@ export default function SideBar({ children }) {
         {/* ${open ? "ml-64" : "ml-16"} */}
         <div
           className={`absolute left-0 top-0 flex flex-col transition-all duration-300 ${
-            open ? "ml-64" : "ml-16"
+            open ? "ml-72" : "ml-24"
           }`}
-
-          style={{width: open? `calc(100% - 256px)`: `calc(100% - 64px)`}}
+          style={{ width: open ? `calc(100% - 288px)` : `calc(100% - 96px)` }}
         >
           <div className="relative">
-          <header className="sticky top-0 left-0 z-10 flex items-center justify-between h-16 px-4 bg-gray-800 text-white w-full">
-            <div className="flex items-center">
-              <h1 className="ml-4 text-lg">
-                {GetNameSidebar(location.pathname)}
-              </h1>
-            </div>
-          </header>
-          <main className="w-full p-6">{children}</main>
+            <header className="sticky top-0 left-0 z-10 flex items-center justify-between h-24 px-4 bg-indigo-500 text-white w-full">
+              <div className="flex items-center">
+                <h1 className="ml-4 text-lg uppercase">
+                  {GetNameSidebar(location.pathname)}
+                </h1>
+              </div>
+            </header>
+            <main className="w-full p-6">{children}</main>
           </div>
         </div>
       </div>

@@ -1,29 +1,76 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
-import ClienteForm from "./components/forms/ClienteForm";
-import DataTable from "./components/tables/datatable";
+
 import SideBar from "./components/sidebar/Sidebar";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import CategoriaProductoPage from "./pages/CategoriaProductoPage";
+import LoginForm from "./security/LoginForm";
+import PrivateRoute from "./security/route/PrivateRoute";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
-      {/* <ClienteForm /> Añade el formulario aquí */}
-      {/* <DataTable /> */}
-      <div className="">
-      <Router >
-        <SideBar>
+      <div className="bg-gray-200">
+        <Router>
           <Routes>
-            <Route exact path="/" element={<div><DataTable /></div>} />
-            <Route exact path="/creditos" element={<div>creditos</div>} />
-            <Route exact path="/productos" element={<div>productos</div>} />
-            <Route exact path="/clientes" element={<div>clientes</div>} />
-            <Route exact path="/ventas" element={<div>venta</div>} />
+            <Route
+              exact
+              path="/login"
+              element={
+                <div className="w-full h-screen flex items-center justify-center">
+                  <div className="w-[684px]">
+                    <LoginForm />
+                  </div>
+                </div>
+              }
+            />
+            <Route
+              exact
+              path="/"
+              element={
+                <SideBar>
+                  <CategoriaProductoPage />
+                </SideBar>
+              }
+            />
+            <Route element={<PrivateRoute />}>
+              <Route
+                exact
+                path="/creditos"
+                element={
+                  <SideBar>
+                    <CategoriaProductoPage />
+                  </SideBar>
+                }
+              />
+            </Route>
+            <Route
+              exact
+              path="/productos"
+              element={
+                <SideBar>
+                  <CategoriaProductoPage />
+                </SideBar>
+              }
+            />
+            <Route
+              exact
+              path="/clientes"
+              element={
+                <SideBar>
+                  <CategoriaProductoPage />
+                </SideBar>
+              }
+            />
+            <Route
+              exact
+              path="/ventas"
+              element={
+                <SideBar>
+                  <CategoriaProductoPage />
+                </SideBar>
+              }
+            />
             <Route
               path="*"
               element={
@@ -33,8 +80,7 @@ function App() {
               }
             />
           </Routes>
-        </SideBar>
-      </Router>
+        </Router>
       </div>
     </>
   );

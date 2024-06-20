@@ -60,7 +60,7 @@ const Pagination = ({ totalPages, handleChange }) => {
     return pages.map((page, index) => (
       <a
         key={index}
-        className={`w-10 h-10 p-2 inline-flex items-center justify-center rounded-full transition-all duration-150 ${
+        className={`w-10 h-10 p-2 inline-flex items-center justify-center rounded-full transition-all duration-150 cursor-pointer ${
           page === "..."
             ? "text-gray-500"
             : currentPage === page
@@ -77,9 +77,7 @@ const Pagination = ({ totalPages, handleChange }) => {
   return (
     <nav className="flex items-center gap-x-4 min-w-max">
       <a
-        className={`text-gray-500 hover:text-gray-900 p-4 inline-flex items-center ${
-          currentPage === 1 ? "hidden" : ""
-        }`}
+        className={`text-gray-500 hover:text-gray-900 p-4 inline-flex items-center cursor-pointer`}
         onClick={handleBack}
       >
         <span className="text-blue-500">
@@ -90,9 +88,7 @@ const Pagination = ({ totalPages, handleChange }) => {
       {renderPageNumbers()}
 
       <a
-        className={`text-gray-500 hover:text-gray-900 p-4 inline-flex items-center ${
-          currentPage === totalPages ? "hidden" : ""
-        }`}
+        className={`text-gray-500 hover:text-gray-900 p-4 inline-flex items-center cursor-pointer`}
         onClick={handleNext}
       >
         <span className="text-blue-500">
