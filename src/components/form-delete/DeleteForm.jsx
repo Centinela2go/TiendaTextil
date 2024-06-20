@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
-const DeleteForm = ({ row, header, body, closeModal }) => {
+const DeleteForm = ({ row, keyHeader, header, body, closeModal }) => {
   const form = useForm({
     defaultValues: {
     },
@@ -29,7 +29,7 @@ const DeleteForm = ({ row, header, body, closeModal }) => {
         </div>
 		<div className="font-light mb-8 text-left">
 			<span>
-				{body} <strong>"{row.original.firstName}"</strong>
+				{body} <strong>"{keyHeader}"</strong>
 			</span>
 		</div>
         <div className="flex justify-between gap-2">
