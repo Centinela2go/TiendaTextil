@@ -1,85 +1,97 @@
-
 import "./App.css";
 
 import SideBar from "./components/sidebar/Sidebar";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import CategoriaProductoPage from "./pages/CategoriaProductoPage";
+import ClientePage from "./pages/ClientePage";
 import LoginForm from "./security/LoginForm";
 import PrivateRoute from "./security/route/PrivateRoute";
+import AuthProvider from "./security/Providers";
 function App() {
   return (
     <>
       <div className="bg-gray-200">
         <Router>
-          <Routes>
-            <Route
-              exact
-              path="/login"
-              element={
-                <div className="w-full h-screen flex items-center justify-center">
-                  <div className="w-[684px]">
-                    <LoginForm />
-                  </div>
-                </div>
-              }
-            />
-            <Route
-              exact
-              path="/"
-              element={
-                <SideBar>
-                  <CategoriaProductoPage />
-                </SideBar>
-              }
-            />
-            <Route element={<PrivateRoute />}>
+          <AuthProvider>
+            <Routes>
               <Route
                 exact
-                path="/creditos"
+                path="/login"
                 element={
-                  <SideBar>
-                    <CategoriaProductoPage />
-                  </SideBar>
+                  <div className="w-full h-screen flex items-center justify-center">
+                    <div className="w-[684px]">
+                      <LoginForm />
+                    </div>
+                  </div>
                 }
               />
-            </Route>
-            <Route
-              exact
-              path="/productos"
-              element={
-                <SideBar>
-                  <CategoriaProductoPage />
-                </SideBar>
-              }
-            />
-            <Route
-              exact
-              path="/clientes"
-              element={
-                <SideBar>
-                  <CategoriaProductoPage />
-                </SideBar>
-              }
-            />
-            <Route
-              exact
-              path="/ventas"
-              element={
-                <SideBar>
-                  <CategoriaProductoPage />
-                </SideBar>
-              }
-            />
-            <Route
-              path="*"
-              element={
-                <div>
-                  <p>Error 404</p>
-                </div>
-              }
-            />
-          </Routes>
+
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
+                  path="/dashboard"
+                  element={
+                    <SideBar>
+                      <ClientePage />
+                    </SideBar>
+                  }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
+                  path="/producto/categoria"
+                  element={
+                    <SideBar>
+                      hola
+                    </SideBar>
+                  }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
+                  path="/productos"
+                  element={
+                    <SideBar>
+                      hola
+                    </SideBar>
+                  }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
+                  path="/clientes"
+                  element={
+                    <SideBar>
+                      hola
+                    </SideBar>
+                  }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
+                  path="/ventas"
+                  element={
+                    <SideBar>
+                      hola
+                    </SideBar>
+                  }
+                />
+              </Route>
+
+              <Route
+                path="*"
+                element={
+                  <div>
+                    <p>Error 404</p>
+                  </div>
+                }
+              />
+            </Routes>
+          </AuthProvider>
         </Router>
       </div>
     </>

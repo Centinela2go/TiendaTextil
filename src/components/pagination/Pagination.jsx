@@ -60,7 +60,7 @@ const Pagination = ({ totalPages, handleChange }) => {
     return pages.map((page, index) => (
       <a
         key={index}
-        className={`w-10 h-10 p-2 inline-flex items-center justify-center rounded-full transition-all duration-150 cursor-pointer ${
+        className={`text-sm 3xl:text-xl w-8 3xl:w-10 h-8 3xl:h-10 p-2 inline-flex items-center justify-center rounded-full transition-all duration-150 cursor-pointer ${
           page === "..."
             ? "text-gray-500"
             : currentPage === page

@@ -1,17 +1,20 @@
-
 import { useForm } from "@tanstack/react-form";
+import axios from "axios";
 
-const ClienteForm = ({ closeModal, defaultData, title }) => {
+const ClienteForm = ({ closeModal, defaultData, title, isEdit, fetchPostData }) => {
   const form = useForm({
-    defaultValues: defaultData ? {... defaultData}: {
-      firstName: "",
-      lastName: "",
-      age: "",
-      visits: "",
-    },
+    defaultValues: defaultData
+      ? { ...defaultData }
+      : {
+          nombre: "",
+          direccion: "",
+          telefono: "",
+          email: "",
+        },
     onSubmit: async ({ value }) => {
       // Do something with form data
-      console.log(value);
+      fetchPostData(value);
+      closeModal();
     },
   });
 
@@ -27,18 +30,15 @@ const ClienteForm = ({ closeModal, defaultData, title }) => {
       >
         <div>
           <div className="mb-4 text-left">
-            <strong>{ title }</strong>
+            <strong>{title}</strong>
           </div>
-          <hr className="mb-4"/>
+          <hr className="mb-4" />
           <div className="mb-4">
             <form.Field
-              name="firstName"
+              name="nombre"
               children={(field) => (
                 <div className="text-left flex flex-col">
-                  <label
-                   
-                    className="text-[14px] ml-2 text-blue-500"
-                  >
+                  <label className="text-[14px] ml-2 text-blue-500">
                     Nombre *
                   </label>
                   <input
@@ -55,13 +55,10 @@ const ClienteForm = ({ closeModal, defaultData, title }) => {
           </div>
           <div className="mb-4">
             <form.Field
-              name="lastName"
+              name="direccion"
               children={(field) => (
                 <div className="text-left flex flex-col">
-                  <label
-                    
-                    className="text-[14px] ml-2 text-blue-500"
-                  >
+                  <label className="text-[14px] ml-2 text-blue-500">
                     Dirección
                   </label>
                   <input
@@ -78,13 +75,10 @@ const ClienteForm = ({ closeModal, defaultData, title }) => {
           </div>
           <div className="mb-4">
             <form.Field
-              name="age"
+              name="telefono"
               children={(field) => (
                 <div className="text-left flex flex-col">
-                  <label
-                    
-                    className="text-[14px] ml-2 text-blue-500"
-                  >
+                  <label className="text-[14px] ml-2 text-blue-500">
                     Telefono
                   </label>
                   <input
@@ -101,16 +95,14 @@ const ClienteForm = ({ closeModal, defaultData, title }) => {
           </div>
           <div className="mb-4">
             <form.Field
-              name="visits"
+              name="email"
               children={(field) => (
                 <div className="text-left flex flex-col">
-                  <label
-                    
-                    className="text-[14px] ml-2 text-blue-500"
-                  >
+                  <label className="text-[14px] ml-2 text-blue-500">
                     Correo Electronico
                   </label>
                   <input
+                    type="email"
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
@@ -128,7 +120,7 @@ const ClienteForm = ({ closeModal, defaultData, title }) => {
             type="submit"
             className="w-full bg-[#5D9CEC] text-white p-2 rounded hover:bg-blue-600 transition duration-200"
           >
-            Agregar
+            { isEdit ? "Editar": "Agregar"}
           </button>
           <button
             type="button"

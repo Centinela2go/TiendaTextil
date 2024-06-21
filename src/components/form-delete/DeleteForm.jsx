@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
-const DeleteForm = ({ row, keyHeader, header, body, closeModal }) => {
+const DeleteForm = ({ row, keyHeader, header, body, closeModal, fetchDelete }) => {
   const form = useForm({
     defaultValues: {
     },
     onSubmit: async ({ value }) => {
       // Do something with form data
       console.log(value);
+      fetchDelete();
+      closeModal()
     },
   });
 
@@ -19,7 +21,7 @@ const DeleteForm = ({ row, keyHeader, header, body, closeModal }) => {
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="bg-white p-8 shadow-lg text-xl w-full"
+        className="bg-white p-8 shadow-lg w-full"
       >
         <div className="text-left">
           <div className="mb-4">
@@ -37,7 +39,7 @@ const DeleteForm = ({ row, keyHeader, header, body, closeModal }) => {
             type="submit"
             className="w-full bg-[#5D9CEC] text-white p-2 rounded hover:bg-blue-600 transition duration-200"
           >
-            Agregar
+            Eliminar
           </button>
           <button
             type="button"

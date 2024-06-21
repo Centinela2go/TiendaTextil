@@ -6,7 +6,7 @@ const LoginForm = () => {
   const { loginAction } = useAuth();
   const form = useForm({
     defaultValues: {
-      email: "",
+      username: "",
       password: "",
     },
     onSubmit: async ({ value }) => {
@@ -16,14 +16,14 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="">
+    <div className="text-md 3xl:text-xl">
       <form
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
           form.handleSubmit();
         }}
-        className="bg-white p-8 shadow-lg text-xl w-full"
+        className="bg-white p-8 shadow-lg w-full"
       >
         <div className="text-left">
           <div className="mb-4">
@@ -33,14 +33,13 @@ const LoginForm = () => {
         </div>
         <div className="mb-4">
           <form.Field
-            name="email"
+            name="username"
             children={(field) => (
               <div className="text-left flex flex-col">
                 <label className="text-[16px] ml-2 text-blue-500">
-                  Correo *
+                  Nombre de usuario *
                 </label>
                 <input
-                  type="email"
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
