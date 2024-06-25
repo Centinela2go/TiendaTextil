@@ -17,7 +17,7 @@ import Switch from "../components/switch/Switch";
 
 const columnHelper = createColumnHelper();
 
-export default function ClientePage() {
+export default function CategoriaProductoPage() {
   const [data, setData] = useState(() => []);
   const { token, logout } = useAuth();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -439,7 +439,7 @@ export default function ClientePage() {
       <div>
         <Snackbar
           open={isOpenSnackbar}
-          autoHideDuration={2000}
+          autoHideDuration={3000}
           onClose={handleCloseSnackbar}
         >
           <Alert severity={severity} variant="filled">

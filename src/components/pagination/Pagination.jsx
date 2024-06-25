@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/16/solid";
 
-const Pagination = ({ totalPages, handleChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const Pagination = ({ totalPages, handleChange, currentPageStart }) => {
+  const [currentPage, setCurrentPage] = useState(currentPageStart);
   const maxVisiblePages = 7; // Número máximo de botones visibles
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     handleChange(page);
   };
+
+  useEffect(() => {
+    
+  
+    return () => {
+      setCurrentPage(1);
+      handleChange(1);
+    }
+  }, [currentPageStart])
+  
 
   const handleNext = () => {
     if (currentPage < totalPages) {

@@ -10,25 +10,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-function DataTable({ data, columns }) {
+function Datatable({ data, columns, pageInit }) {
   
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setPagination((prev) => ({
-        ...prev,
-        pageSize: window.screen.width < 1530 ? 6 : 12,
-      }));
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const table = useReactTable({
     data,
@@ -45,7 +29,7 @@ function DataTable({ data, columns }) {
   const handleChange = (value) => {
     table.setPageIndex(value - 1);
   };
-
+  
   return (
     <div className="p-2 bg-white shadow-sm shadow-black">
       <div className="relative">
@@ -97,6 +81,7 @@ function DataTable({ data, columns }) {
           <Pagination
             totalPages={table.getPageCount()}
             handleChange={handleChange}
+            currentPageStart={pageInit}
           />
         </div>
       </div>
@@ -105,4 +90,4 @@ function DataTable({ data, columns }) {
   );
 }
 
-export default DataTable;
+export default Datatable;

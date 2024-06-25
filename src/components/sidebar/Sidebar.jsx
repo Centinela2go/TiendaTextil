@@ -11,6 +11,7 @@ import StoreIconOutline from "../icons/StoreIconOutline";
 import ClientIconOutline from "../icons/ClientIconOutline";
 import VentaIconOutline from "../icons/VentaIconOutline";
 import UserIconOutline from "../icons/UserIconOutline";
+import { useAuth } from "../../security/Providers";
 
 function GetNameSidebar(link) {
   switch (link) {
@@ -33,7 +34,14 @@ function GetNameSidebar(link) {
 
 export default function SideBar({ children }) {
   const location = useLocation();
+  const { getUser, logout } = useAuth();
   const [open, setOpen] = useState(false);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -57,26 +65,6 @@ export default function SideBar({ children }) {
             </button>
           </div>
           <nav className="flex flex-col">
-          <Link
-              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${
-                open ? "px-4" : "justify-center"
-              }`}
-            >
-              <div>
-                <UserIconOutline
-                  className={
-                    "h-7 w-7 3xl:h-9 3xl:w-9 transition-transform duration-300"
-                  }
-                />
-              </div>
-              <span
-                className={`ml-4 transition-opacity delay-300 duration-300 ${
-                  open ? "block opacity-100" : "hidden opacity-0"
-                }`}
-              >
-                Dashboard
-              </span>
-            </Link>
             <Link
               to="/dashboard"
               title={open ? "" : "Dashboard"}
@@ -181,10 +169,34 @@ export default function SideBar({ children }) {
         >
           <div className="relative">
             <header className="sticky top-0 left-0 z-10 flex items-center justify-between h-16 3xl:h-24 px-4 bg-indigo-500 text-white w-full">
-              <div className="flex items-center">
-                <h1 className="ml-4 text-sm 3xl:text-lg uppercase">
+              <div className="flex items-center justify-between w-full">
+                <h4 className="ml-4 text-sm 3xl:text-lg uppercase">
                   {GetNameSidebar(location.pathname)}
-                </h1>
+                </h4>
+
+                <div className="relative">
+                  <button
+                    onClick={toggleMenu}
+                    className="flex h-7 3xl:h-9 items-center justify-center text-white"
+                  >
+                    <div className="mr-2 pb-2">Hola, {getUser().username}</div>
+                    <UserIconOutline className="h-7 w-7 3xl:h-9 3xl:w-9 transition-transform duration-300" />
+                  </button>
+                  {isMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg py-2">
+                      <button
+                        onClick={() => {
+                          // Lógica para cerrar sesión
+                          console.log("Cerrando sesión...");
+                          logout();
+                        }}
+                        className="block px-4 py-2 text-sm w-full text-left hover:bg-gray-200"
+                      >
+                        Cerrar sesión
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </header>
             <main className="w-full p-6">{children}</main>

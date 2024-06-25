@@ -7,12 +7,15 @@ import ClientePage from "./pages/ClientePage";
 import LoginForm from "./security/LoginForm";
 import PrivateRoute from "./security/route/PrivateRoute";
 import AuthProvider from "./security/Providers";
+
 function App() {
   return (
     <>
       <div className="bg-gray-200">
         <Router>
+  
           <AuthProvider>
+            
             <Routes>
               <Route
                 exact
@@ -32,7 +35,7 @@ function App() {
                   path="/dashboard"
                   element={
                     <SideBar>
-                      <ClientePage />
+                      hola
                     </SideBar>
                   }
                 />
@@ -43,7 +46,7 @@ function App() {
                   path="/producto/categoria"
                   element={
                     <SideBar>
-                      hola
+                      
                     </SideBar>
                   }
                 />
@@ -65,7 +68,7 @@ function App() {
                   path="/clientes"
                   element={
                     <SideBar>
-                      hola
+                      <ClientePage />
                     </SideBar>
                   }
                 />
