@@ -7,6 +7,7 @@ import ClientePage from "./pages/ClientePage";
 import LoginForm from "./security/LoginForm";
 import PrivateRoute from "./security/route/PrivateRoute";
 import AuthProvider from "./security/Providers";
+import CategoriaProductoPage from "./pages/CategoriaProducto";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
                   path="/producto/categoria"
                   element={
                     <SideBar>
-                      
+                      <CategoriaProductoPage />
                     </SideBar>
                   }
                 />
