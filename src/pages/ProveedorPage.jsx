@@ -2,20 +2,21 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { useEffect, useState } from "react";
 import Modal from "../components/modal/Modal";
-import ClienteForm from "../components/forms/ClienteForm";
 import DeleteForm from "../components/form-delete/DeleteForm";
 import axios from "axios";
 import { useAuth } from "../security/Providers";
 import Alert from "../components/alert/Alert";
 import Snackbar from "../components/snackbar/Snackbar";
 import Switch from "../components/switch/Switch";
+import CategoriaForm from "../components/forms/CategoriaForm";
 import CustomDatatable from "../components/tables/CustomDatatable";
+import ProveedorForm from "../components/forms/ProveedorForm";
 
 const columnHelper = createColumnHelper();
 
-export default function ClientePage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/cliente/";
-  const titleButtonOpenFormAdd = "Agregar Cliente";
+export default function ProveedorPage() {
+  const urlClienteApi = "http://127.0.0.1:8000/api/proveedor/";
+  const titleButtonOpenFormAdd = "Agregar Proveedor";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -29,8 +30,8 @@ export default function ClientePage() {
   const deleteForm = (row, closeModalDelete) => (
     <DeleteForm
       row={row}
-      header="Eliminar cliente"
-      body={`Estas seguro de eliminar el cliente con nombre: `}
+      header="Eliminar Proveedor"
+      body={`Estas seguro de eliminar el proveedor con nombre: `}
       keyHeader={row.original.nombre}
       closeModal={closeModalDelete}
       fetchDelete={() =>
@@ -39,8 +40,8 @@ export default function ClientePage() {
     />
   );
   const editForm = (row, closeModalEdit) => (
-    <ClienteForm
-      title="Editar cliente"
+    <ProveedorForm
+      title="Editar Proveedor"
       defaultData={row.original}
       closeModal={closeModalEdit}
       isEdit={true}
@@ -51,8 +52,8 @@ export default function ClientePage() {
   );
 
   const addForm = () => (
-    <ClienteForm
-      title="Agregar Cliente"
+    <ProveedorForm
+      title="Agregar Proveedor"
       closeModal={() => setIsOpenModal(false)}
       fetchPostData={(value) => apiCall("post", urlClienteApi, value)}
     />
@@ -230,9 +231,7 @@ export default function ClientePage() {
         {titleButtonOpenFormAdd}
       </button>
       <CustomDatatable data={data} columns={columns} pageInit={changeFetch} />
-      <Modal isOpen={isOpenModal}>
-        {addForm()}
-      </Modal>
+      <Modal isOpen={isOpenModal}>{addForm()}</Modal>
       <Snackbar
         open={isOpenSnackbar}
         autoHideDuration={2000}

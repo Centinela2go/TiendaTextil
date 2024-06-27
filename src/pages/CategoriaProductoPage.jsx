@@ -1,15 +1,15 @@
-import Datatable from "../components/tables/Datatable";
 import { createColumnHelper } from "@tanstack/react-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { useEffect, useState } from "react";
 import Modal from "../components/modal/Modal";
-import ClienteForm from "../components/forms/ClienteForm";
 import DeleteForm from "../components/form-delete/DeleteForm";
 import axios from "axios";
 import { useAuth } from "../security/Providers";
 import Alert from "../components/alert/Alert";
 import Snackbar from "../components/snackbar/Snackbar";
 import Switch from "../components/switch/Switch";
+import CategoriaForm from "../components/forms/CategoriaForm";
+import CustomDatatable from "../components/tables/CustomDatatable";
 
 const columnHelper = createColumnHelper();
 
@@ -39,7 +39,7 @@ export default function CategoriaProductoPage() {
     />
   );
   const editForm = (row, closeModalEdit) => (
-    <ClienteForm
+    <CategoriaForm
       title="Editar Categoria de Producto"
       defaultData={row.original}
       closeModal={closeModalEdit}
@@ -51,7 +51,7 @@ export default function CategoriaProductoPage() {
   );
 
   const addForm = () => (
-    <ClienteForm
+    <CategoriaForm
       title="Agregar Categoria de Producto"
       closeModal={() => setIsOpenModal(false)}
       fetchPostData={(value) => apiCall("post", urlClienteApi, value)}
@@ -219,10 +219,8 @@ export default function CategoriaProductoPage() {
       >
         {titleButtonOpenFormAdd}
       </button>
-      <Datatable data={data} columns={columns} pageInit={changeFetch} />
-      <Modal isOpen={isOpenModal}>
-        {addForm()}
-      </Modal>
+      <CustomDatatable data={data} columns={columns} pageInit={changeFetch} />
+      <Modal isOpen={isOpenModal}>{addForm()}</Modal>
       <Snackbar
         open={isOpenSnackbar}
         autoHideDuration={2000}

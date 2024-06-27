@@ -1,23 +1,19 @@
 import { useForm } from "@tanstack/react-form";
 import axios from "axios";
-import FormError from "./FormError";
 
-const ClienteForm = ({
+const CategoriaForm = ({
   closeModal,
   defaultData,
   title,
   isEdit,
   fetchPostData,
 }) => {
-
   const form = useForm({
     defaultValues: defaultData
       ? { ...defaultData }
       : {
           nombre: "",
-          direccion: "",
-          telefono: "",
-          email: "",
+          descripcion: "",
         },
     validateOnChange: true,
     onSubmit: async ({ value }) => {
@@ -73,7 +69,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese el nombre del cliente"
+                    placeholder="Ingrese el nombre de la categoria"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -86,7 +82,7 @@ const ClienteForm = ({
           </div>
           <div className="mb-4">
             <form.Field
-              name="direccion"
+              name="descripcion"
               validators={{
                 onChange: ({ value }) => {},
               }}
@@ -99,7 +95,7 @@ const ClienteForm = ({
                         : "text-blue-500"
                     }`}
                   >
-                    Dirección
+                    Descripción
                   </label>
                   <input
                     name={field.name}
@@ -111,108 +107,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese la dirección del cliente"
-                  />
-                  {field.state.meta.errors && (
-                    <span className="text-red-600 text-sm mt-1">
-                      {field.state.meta.errors}
-                    </span>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="mb-4">
-            <form.Field
-              name="telefono"
-              validators={{
-                onChange: ({ value }) => {
-                  if (value.length > 0) {
-                    if (value[0] != "9") {
-                      return "El teléfono debe comenzar por '9'.";
-                    }
-                    if (!value.match(/^9\d{8}$/)) {
-                      return "El teléfono debe tener 9 dígitos.";
-                    }
-                  }
-                },
-              }}
-              children={(field) => (
-                <div className="text-left flex flex-col">
-                  <label
-                    className={`text-[14px] ml-2 ${
-                      field.state.meta.errors.length > 0
-                        ? "text-red-500"
-                        : "text-blue-500"
-                    }`}
-                  >
-                    Telefono
-                  </label>
-                  <input
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => {
-                      if (
-                        /^\d+$/.test(e.target.value) ||
-                        e.target.value == ""
-                      ) {
-                        field.handleChange(e.target.value);
-                      }
-                    }}
-                    className={`w-full p-2 border rounded focus:outline-none focus:ring-1  ${
-                      field.state.meta.errors.length > 0
-                        ? "focus:ring-red-500 border-red-300"
-                        : "focus:ring-blue-500 border-gray-300"
-                    }`}
-                    placeholder="Ingrese el telefono del cliente"
-                  />
-                  {field.state.meta.errors && (
-                    <span className="text-red-600 text-sm mt-1">
-                      {field.state.meta.errors}
-                    </span>
-                  )}
-                </div>
-              )}
-            />
-          </div>
-          <div className="mb-4">
-            <form.Field
-              name="email"
-              validators={{
-                onChange: ({ value }) => {
-                  if (value.length > 0) {
-                    if (
-                      !/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/.test(value)
-                    ) {
-                      return "El email debe ser correcto.";
-                    }
-                  }
-                },
-              }}
-              children={(field) => (
-                <div className="text-left flex flex-col">
-                  <label
-                    className={`text-[14px] ml-2 ${
-                      field.state.meta.errors.length > 0
-                        ? "text-red-500"
-                        : "text-blue-500"
-                    }`}
-                  >
-                    Correo Electronico
-                  </label>
-                  <input
-                    type="email"
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    className={`w-full p-2 border rounded focus:outline-none focus:ring-1  ${
-                      field.state.meta.errors.length > 0
-                        ? "focus:ring-red-500 border-red-300"
-                        : "focus:ring-blue-500 border-gray-300"
-                    }`}
-                    placeholder="Ingrese la correo electronico del cliente"
+                    placeholder="Ingrese la descripción de la categoria"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -244,4 +139,4 @@ const ClienteForm = ({
   );
 };
 
-export default ClienteForm;
+export default CategoriaForm;

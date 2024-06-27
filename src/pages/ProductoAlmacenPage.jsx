@@ -2,20 +2,21 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
 import { useEffect, useState } from "react";
 import Modal from "../components/modal/Modal";
-import ClienteForm from "../components/forms/ClienteForm";
 import DeleteForm from "../components/form-delete/DeleteForm";
 import axios from "axios";
 import { useAuth } from "../security/Providers";
 import Alert from "../components/alert/Alert";
 import Snackbar from "../components/snackbar/Snackbar";
 import Switch from "../components/switch/Switch";
+import CategoriaForm from "../components/forms/CategoriaForm";
 import CustomDatatable from "../components/tables/CustomDatatable";
+import ProveedorForm from "../components/forms/ProveedorForm";
 
 const columnHelper = createColumnHelper();
 
-export default function ClientePage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/cliente/";
-  const titleButtonOpenFormAdd = "Agregar Cliente";
+export default function ProductoAlmacenPage() {
+  const urlClienteApi = "http://127.0.0.1:8000/api/almacen/producto/";
+  const titleButtonOpenFormAdd = "Agregar Proveedor";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -29,8 +30,8 @@ export default function ClientePage() {
   const deleteForm = (row, closeModalDelete) => (
     <DeleteForm
       row={row}
-      header="Eliminar cliente"
-      body={`Estas seguro de eliminar el cliente con nombre: `}
+      header="Eliminar Producto del Almacen"
+      body={`Estas seguro de eliminar el producto con nombre: `}
       keyHeader={row.original.nombre}
       closeModal={closeModalDelete}
       fetchDelete={() =>
@@ -39,8 +40,8 @@ export default function ClientePage() {
     />
   );
   const editForm = (row, closeModalEdit) => (
-    <ClienteForm
-      title="Editar cliente"
+    <ProveedorForm
+      title="Editar Producto"
       defaultData={row.original}
       closeModal={closeModalEdit}
       isEdit={true}
@@ -51,8 +52,8 @@ export default function ClientePage() {
   );
 
   const addForm = () => (
-    <ClienteForm
-      title="Agregar Cliente"
+    <ProveedorForm
+      title="Agregar Producto"
       closeModal={() => setIsOpenModal(false)}
       fetchPostData={(value) => apiCall("post", urlClienteApi, value)}
     />
@@ -121,19 +122,32 @@ export default function ClientePage() {
       footer: (info) => info.column.id,
       width: "20%",
     }),
-    columnHelper.accessor("direccion", {
-      header: "Direccion",
+    columnHelper.accessor("categoria.nombre", {
+      header: "Categoria",
       cell: (info) => info.renderValue(),
       footer: (info) => info.column.id,
       width: "10%",
     }),
-    columnHelper.accessor("telefono", {
-      header: "Telefono",
+    columnHelper.accessor("proveedor.nombre", {
+      header: "Proveedor",
+      cell: (info) => info.renderValue(),
       footer: (info) => info.column.id,
       width: "10%",
     }),
-    columnHelper.accessor("email", {
-      header: "Correo",
+    columnHelper.accessor("costo", {
+      header: "Costo",
+      footer: (info) => info.column.id,
+      width: "10%",
+	  textAlign: "center",
+    }),
+    columnHelper.accessor("existencias", {
+      header: "Existencias",
+      footer: (info) => info.column.id,
+      width: "10%",
+	  textAlign: "center",
+    }),
+    columnHelper.accessor("descripcion", {
+      header: "Descripción",
       footer: (info) => info.column.id,
       width: "10%",
     }),
@@ -230,9 +244,7 @@ export default function ClientePage() {
         {titleButtonOpenFormAdd}
       </button>
       <CustomDatatable data={data} columns={columns} pageInit={changeFetch} />
-      <Modal isOpen={isOpenModal}>
-        {addForm()}
-      </Modal>
+      <Modal isOpen={isOpenModal}>{addForm()}</Modal>
       <Snackbar
         open={isOpenSnackbar}
         autoHideDuration={2000}

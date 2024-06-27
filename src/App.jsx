@@ -7,7 +7,10 @@ import ClientePage from "./pages/ClientePage";
 import LoginForm from "./security/LoginForm";
 import PrivateRoute from "./security/route/PrivateRoute";
 import AuthProvider from "./security/Providers";
-import CategoriaProductoPage from "./pages/CategoriaProducto";
+import CategoriaProductoPage from "./pages/CategoriaProductoPage";
+import ProveedorPage from "./pages/ProveedorPage";
+import ProductoAlmacenPage from "./pages/ProductoAlmacenPage";
+import CustomCombobox from "./components/combobox/CustomCombobox";
 
 function App() {
   return (
@@ -36,7 +39,7 @@ function App() {
                   path="/dashboard"
                   element={
                     <SideBar>
-                      hola
+                      <ProveedorPage />
                     </SideBar>
                   }
                 />
@@ -58,7 +61,9 @@ function App() {
                   path="/productos"
                   element={
                     <SideBar>
-                      hola
+                      <ProductoAlmacenPage />
+                      <CustomCombobox apiUrl="http://127.0.0.1:8000/api/producto/categoria/" displayProperty="nombre" />
+                      <CustomCombobox apiUrl="http://127.0.0.1:8000/api/producto/categoria/" displayProperty="nombre" />
                     </SideBar>
                   }
                 />

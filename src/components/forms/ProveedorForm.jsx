@@ -2,14 +2,13 @@ import { useForm } from "@tanstack/react-form";
 import axios from "axios";
 import FormError from "./FormError";
 
-const ClienteForm = ({
+const ProveedorForm = ({
   closeModal,
   defaultData,
   title,
   isEdit,
   fetchPostData,
 }) => {
-
   const form = useForm({
     defaultValues: defaultData
       ? { ...defaultData }
@@ -73,7 +72,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese el nombre del cliente"
+                    placeholder="Ingrese el nombre del proveedor"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -88,7 +87,11 @@ const ClienteForm = ({
             <form.Field
               name="direccion"
               validators={{
-                onChange: ({ value }) => {},
+                onChange: ({ value }) => {
+                  if (value == "") {
+                    return "Este campo no debe estar vacio.";
+                  }
+                },
               }}
               children={(field) => (
                 <div className="text-left flex flex-col">
@@ -99,7 +102,7 @@ const ClienteForm = ({
                         : "text-blue-500"
                     }`}
                   >
-                    Dirección
+                    Dirección *
                   </label>
                   <input
                     name={field.name}
@@ -111,7 +114,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese la dirección del cliente"
+                    placeholder="Ingrese la dirección del proveedor"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -127,6 +130,9 @@ const ClienteForm = ({
               name="telefono"
               validators={{
                 onChange: ({ value }) => {
+                  if (value == "") {
+                    return "Este campo no debe estar vacio.";
+                  }
                   if (value.length > 0) {
                     if (value[0] != "9") {
                       return "El teléfono debe comenzar por '9'.";
@@ -146,7 +152,7 @@ const ClienteForm = ({
                         : "text-blue-500"
                     }`}
                   >
-                    Telefono
+                    Telefono *
                   </label>
                   <input
                     name={field.name}
@@ -165,7 +171,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese el telefono del cliente"
+                    placeholder="Ingrese el telefono del proveedor"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -212,7 +218,7 @@ const ClienteForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese la correo electronico del cliente"
+                    placeholder="Ingrese la correo electronico del proveedor"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -244,4 +250,4 @@ const ClienteForm = ({
   );
 };
 
-export default ClienteForm;
+export default ProveedorForm;

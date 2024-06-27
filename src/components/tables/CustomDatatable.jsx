@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-function Datatable({ data, columns, pageInit }) {
+function CustomDatatable({ data, columns, pageInit }) {
   
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 });
 
@@ -90,4 +90,4 @@ function Datatable({ data, columns, pageInit }) {
   );
 }
 
-export default Datatable;
+export default CustomDatatable;
