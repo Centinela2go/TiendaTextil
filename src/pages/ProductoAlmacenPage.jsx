@@ -11,12 +11,13 @@ import Switch from "../components/switch/Switch";
 import CategoriaForm from "../components/forms/CategoriaForm";
 import CustomDatatable from "../components/tables/CustomDatatable";
 import ProveedorForm from "../components/forms/ProveedorForm";
+import ProductoAlmacenForm from "../components/forms/ProductoAlmacenForm";
 
 const columnHelper = createColumnHelper();
 
 export default function ProductoAlmacenPage() {
   const urlClienteApi = "http://127.0.0.1:8000/api/almacen/producto/";
-  const titleButtonOpenFormAdd = "Agregar Proveedor";
+  const titleButtonOpenFormAdd = "Agregar Producto";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -40,7 +41,7 @@ export default function ProductoAlmacenPage() {
     />
   );
   const editForm = (row, closeModalEdit) => (
-    <ProveedorForm
+    <ProductoAlmacenForm
       title="Editar Producto"
       defaultData={row.original}
       closeModal={closeModalEdit}
@@ -52,7 +53,7 @@ export default function ProductoAlmacenPage() {
   );
 
   const addForm = () => (
-    <ProveedorForm
+    <ProductoAlmacenForm
       title="Agregar Producto"
       closeModal={() => setIsOpenModal(false)}
       fetchPostData={(value) => apiCall("post", urlClienteApi, value)}
@@ -185,7 +186,7 @@ export default function ProductoAlmacenPage() {
         const closeModalDelete = () => setIsOpenModalDelete(false);
         const openModalEdit = () => setIsOpenModalEdit(true);
         const closeModalEdit = () => setIsOpenModalEdit(false);
-
+        
         return (
           <>
             <div className="w-full flex items-center justify-center">

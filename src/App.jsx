@@ -62,8 +62,6 @@ function App() {
                   element={
                     <SideBar>
                       <ProductoAlmacenPage />
-                      <CustomCombobox apiUrl="http://127.0.0.1:8000/api/producto/categoria/" displayProperty="nombre" />
-                      <CustomCombobox apiUrl="http://127.0.0.1:8000/api/producto/categoria/" displayProperty="nombre" />
                     </SideBar>
                   }
                 />

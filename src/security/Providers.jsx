@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
               "email": res.data.user.email,
             }
           );
-          console.log(res.data);
           setToken(res.data.token);
           localStorage.setItem("site", res.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.user));

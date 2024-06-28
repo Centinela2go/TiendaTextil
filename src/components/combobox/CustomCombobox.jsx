@@ -1,25 +1,23 @@
 import { useAuth } from "../../security/Providers";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 
-const CustomCombobox = ({ apiUrl }) => {
+const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl }) => {
   const [people, setPeople] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
   const { token } = useAuth();
+  const comboboxRef = useRef(null);
 
   const handleFocus = () => {
     setIsFocus(true);
   };
 
-  const handleBlur = () => {
-    // Utilizamos un timeout para permitir el click en las opciones antes de que se cierre
-    setTimeout(() => setIsFocus(false), 200);
-  };
-
   const handleSelected = (value) => {
     setSelectedPerson(value);
-    setIsFocus(false); // Opcional: Cierra la lista desplegable después de seleccionar
+    setIsFocus(false);
+    onChange(value.id);
   };
 
   useEffect(() => {
@@ -29,30 +27,47 @@ const CustomCombobox = ({ apiUrl }) => {
       })
       .then((response) => {
         setPeople(response.data.rows);
+        if (value != "") {
+          setSelectedPerson(response.data.rows.find(elto => elto.id == value));
+        }
       })
       .catch((error) => {
         console.error("Error fetching Data:", error);
       });
-  }, [apiUrl, token]);
+  }, []);
 
   return (
     <>
-      <div className="relative" onFocus={handleFocus} onBlur={handleBlur}>
-        <input type="hidden" name="combox-value" />
-        <input
-          type="text"
-          className="w-full p-2 mb-2 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500 border-gray-300"
-          placeholder="Seleccione un valor"
-          value={selectedPerson ? selectedPerson.nombre : ""}
-          readOnly
-        />
+      <div
+        ref={comboboxRef}
+        className="relative"
+        tabIndex="0"
+      >
+        <div className="flex items-center relative">
+          <input
+            type="text"
+            name={name}
+            className="w-full p-2 mb-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300"
+            placeholder={placeholder}
+            value={selectedPerson ? selectedPerson.nombre : value}
+            
+            onClick={handleFocus}
+            readOnly
+          />
+          {isFocus ? (
+            <ChevronUpIcon className="absolute z-8 w-5 h-5 text-gray-400 mr-2 right-0" />
+          ) : (
+            <ChevronDownIcon className="absolute z-8 w-5 h-5 text-gray-400 mr-2 right-0" />
+          )}
+        </div>
         {isFocus && (
-          <div className="w-full absolute z-10  bg-gray-100">
-            <ul>
+          <div className="w-full absolute z-10 bg-white shadow-lg rounded-md mt-1">
+            <ul className="max-h-60 overflow-y-auto">
               {people.map((value, index) => (
                 <li
-                  key={`option ${index}`}
-                  className="py-2 pl-4 hover:bg-gray-300 cursor-pointer"
+                  key={`option-${index}`}
+                  className="py-2 px-4 hover:bg-indigo-500 hover:text-white cursor-pointer"
+                  // Prevent input blur on click
                   onClick={() => handleSelected(value)}
                 >
                   {value.nombre}
