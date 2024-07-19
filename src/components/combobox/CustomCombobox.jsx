@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/16/solid';
 
-const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl }) => {
+const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl, fnGetLabel }) => {
   const [people, setPeople] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState(null);
@@ -11,13 +11,13 @@ const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl }) => {
   const comboboxRef = useRef(null);
 
   const handleFocus = () => {
-    setIsFocus(true);
+    setIsFocus(!isFocus);
   };
 
   const handleSelected = (value) => {
     setSelectedPerson(value);
     setIsFocus(false);
-    onChange(value.id);
+    onChange(value);
   };
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl }) => {
             name={name}
             className="w-full p-2 mb-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500 border-gray-300"
             placeholder={placeholder}
-            value={selectedPerson ? selectedPerson.nombre : value}
+            value={selectedPerson ? fnGetLabel(selectedPerson) : value}
             
             onClick={handleFocus}
             readOnly
@@ -70,7 +70,7 @@ const CustomCombobox = ({ name, value, onChange, placeholder, apiUrl }) => {
                   // Prevent input blur on click
                   onClick={() => handleSelected(value)}
                 >
-                  {value.nombre}
+                  {fnGetLabel(value)}
                 </li>
               ))}
             </ul>

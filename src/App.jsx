@@ -2,7 +2,7 @@ import "./App.css";
 
 import SideBar from "./components/sidebar/Sidebar";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import ClientePage from "./pages/ClientePage";
 import LoginForm from "./security/LoginForm";
 import PrivateRoute from "./security/route/PrivateRoute";
@@ -11,6 +11,8 @@ import CategoriaProductoPage from "./pages/CategoriaProductoPage";
 import ProveedorPage from "./pages/ProveedorPage";
 import ProductoAlmacenPage from "./pages/ProductoAlmacenPage";
 import CustomCombobox from "./components/combobox/CustomCombobox";
+import ProductoPage from "./pages/ProductoPage";
+import VentaPage from "./pages/VentaPage";
 
 function App() {
   return (
@@ -58,7 +60,7 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route
                   exact
-                  path="/productos"
+                  path="/almacen/productos"
                   element={
                     <SideBar>
                       <ProductoAlmacenPage />
@@ -80,10 +82,21 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route
                   exact
+                  path="/productos"
+                  element={
+                    <SideBar>
+                      <ProductoPage />
+                    </SideBar>
+                  }
+                />
+              </Route>
+              <Route element={<PrivateRoute />}>
+                <Route
+                  exact
                   path="/ventas"
                   element={
                     <SideBar>
-                      hola
+                      <VentaPage />
                     </SideBar>
                   }
                 />
@@ -92,10 +105,9 @@ function App() {
               <Route
                 path="*"
                 element={
-                  <div>
-                    <p>Error 404</p>
-                  </div>
+                  <Navigate to={"/login"}/>
                 }
+                
               />
             </Routes>
           </AuthProvider>

@@ -15,12 +15,12 @@ import { useAuth } from "../../security/Providers";
 
 function GetNameSidebar(link) {
   switch (link) {
-    case "/ventas":
-      return "Registro de Orden de Venta";
-    case "/clientes":
-      return "Registro de clientes";
     case "/productos":
       return "Registro de productos";
+    case "/clientes":
+      return "Registro de clientes";
+    case "/almacen/productos":
+      return "Registro de productos en almacen";
     case "/producto/categoria":
       return "Registro de categorias de productos";
     case "/creditos":
@@ -106,7 +106,7 @@ export default function SideBar({ children }) {
               </span>
             </Link>
             <Link
-              to="/productos"
+              to="/almacen/productos"
               title={open ? "" : "Productos"}
               className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${
                 open ? "px-4" : "justify-center"
@@ -120,7 +120,7 @@ export default function SideBar({ children }) {
                   open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
-                Productos
+                Productos Almacen
               </span>
             </Link>
             <Link
@@ -141,6 +141,23 @@ export default function SideBar({ children }) {
               </span>
             </Link>
             <Link
+              to="/productos"
+              className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${
+                open ? "px-4" : "justify-center"
+              }`}
+            >
+              <div>
+                <VentaIconOutline className="h-7 w-7 3xl:h-9 3xl:w-9 transition-transform duration-300" />
+              </div>
+              <span
+                className={`ml-4 transition-opacity delay-300 duration-300 ${
+                  open ? "block opacity-100" : "hidden opacity-0"
+                }`}
+              >
+                Productos
+              </span>
+            </Link>
+            <Link
               to="/ventas"
               className={`flex items-center py-4 text-indigo-700 hover:bg-indigo-400 hover:text-white ${
                 open ? "px-4" : "justify-center"
@@ -154,7 +171,7 @@ export default function SideBar({ children }) {
                   open ? "block opacity-100" : "hidden opacity-0"
                 }`}
               >
-                Orden
+                Registro de ventas
               </span>
             </Link>
           </nav>

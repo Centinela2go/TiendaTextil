@@ -85,7 +85,7 @@ const ProductoAlmacenForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese el nombre del cliente"
+                    placeholder="Ingrese el nombre del producto"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
@@ -283,7 +283,7 @@ const ProductoAlmacenForm = ({
                         ? "focus:ring-red-500 border-red-300"
                         : "focus:ring-blue-500 border-gray-300"
                     }`}
-                    placeholder="Ingrese la descripción de la categoria"
+                    placeholder="Ingrese la descripción del producto"
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">
