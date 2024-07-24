@@ -12,6 +12,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/16/solid";
+import Modal from "../modal/Modal";
+import DeleteForm from "../form-delete/DeleteForm";
+import { useAuth } from "../../security/Providers";
 
 const columnHelper = createColumnHelper();
 
@@ -22,8 +25,11 @@ const VentaForm = ({
   isEdit,
   fetchPostData,
 }) => {
-  if (defaultData) {
-  }
+  const [isOpenModalDelete, setIsOpenModalDelete] = useState(false);
+
+  const openModalDelete = () => setIsOpenModalDelete(true);
+  const closeModalDelete = () => setIsOpenModalDelete(false);
+
   const form = useForm({
     defaultValues: {
       producto: "",
@@ -31,16 +37,75 @@ const VentaForm = ({
     },
     validateOnChange: true,
     onSubmit: async ({ value }) => {
-      console.log(value);
-      var new_value = value.producto;
-      new_value["cantidad"] = value.cantidad;
-      setData([...data, new_value]);
-      setTotal(total + new_value.precio * new_value.cantidad);
+      var new_value = {
+        ...value.producto,
+        cantidad: parseInt(value.cantidad, 10),
+      };
+
+      var var_data = [...data];
+      let indice = var_data.findIndex((item) => item.id == new_value.id);
+
+      if (indice > -1) {
+        var_data[indice]["cantidad"] =
+          parseInt(var_data[indice]["cantidad"], 10) + new_value["cantidad"];
+
+        setData([...var_data]);
+        setTotal(total + new_value.precio * new_value.cantidad);
+      } else {
+        setData([...data, new_value]);
+        setTotal(total + new_value.precio * new_value.cantidad);
+      }
     },
   });
 
   const [data, setData] = useState([]);
+  const { token, logout } = useAuth();
   const [total, setTotal] = useState(0);
+  const urlClienteApi = "http://127.0.0.1:8000/api/venta/";
+
+  const apiCall = async (method, url, data) => {
+    var data = {"productos": data};
+    try {
+      const response = await axios({
+        method,
+        url,
+        data,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      handleOpenSnackbar("success", response.data.message);
+    } catch (error) {
+      handleError(error);
+    }
+  };
+
+  const handleError = (error) => {
+    if (error.response) {
+      if (error.response.status === 401) {
+        logout();
+      } else if (error.response.status === 400) {
+        if (error.response.data.hasOwnProperty('error')){
+          const errors = error.response.data.error;
+          const firstErrorKey = Object.keys(errors)[0];
+          const firstErrorMessage = errors[firstErrorKey][0];
+          handleOpenSnackbar(
+            "error",
+            `${capitalize(firstErrorKey)}: ${firstErrorMessage}`
+          );
+        }  
+      } else if (error.response.status === 403) {
+          if (error.response.data.hasOwnProperty('detail')) {
+            
+            handleOpenSnackbar(
+              "error",
+              `${capitalize("Error")}: ${error.response.data.detail}`
+            );
+          }
+      } else {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
 
   function eliminarProducto(value_row) {
     var var_data = [...data];
@@ -100,14 +165,6 @@ const VentaForm = ({
           <>
             <div className="w-full flex items-center justify-center">
               <div className="flex gap-2 items-center h-full">
-                {
-                  <button
-                    className="cursor-pointer p-2 bg-blue-500 rounded-md text-white"
-                    title="Editar Cantidad"
-                  >
-                    <PencilSquareIcon className="h-4 w-4 3xl:h-6 3xl:w-6" />
-                  </button>
-                }
                 <button
                   type="button"
                   className="cursor-pointer p-2 bg-red-500 rounded-md text-white"
@@ -194,46 +251,7 @@ const VentaForm = ({
                 )}
               />
             </div>
-            {/* <div className="mb-4 flex-1">
-              <form.Field
-                name="cliente"
-                validators={{
-                  onChange: ({ value }) => {
-                    if (value == "") {
-                      return "Este campo no debe estar vacio.";
-                    }
-                  },
-                }}
-                children={(field) => (
-                  <div className="text-left flex flex-col">
-                    <label
-                      className={`text-[14px] ml-2 ${
-                        field.state.meta.errors.length > 0
-                          ? "text-red-500"
-                          : "text-blue-500"
-                      }`}
-                    >
-                      Cliente *
-                    </label>
-                    <CustomCombobox
-                      name={field.name}
-                      value={field.state.value}
-                      onChange={(value) => field.handleChange(value)}
-                      placeholder="Seleccione producto almacen"
-                      apiUrl={"http://127.0.0.1:8000/api/cliente/"}
-                      fnGetLabel={function (item) {
-                        return `${item.nombre}`;
-                      }}
-                    />
-                    {field.state.meta.errors && (
-                      <span className="text-red-600 text-sm mt-1">
-                        {field.state.meta.errors}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-            </div> */}
+            
             <div className="mb-4 flex-1">
               <form.Field
                 name="cantidad"
@@ -287,66 +305,87 @@ const VentaForm = ({
             <AddIconOutline /> <div>Agregar</div>
           </button>
         </div>
-        <table className="min-w-full divide-y divide-gray-200 mt-4">
-          <thead className="bg-indigo-50">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-6 py-3 text-left text-xs 3xl:text-sm font-medium text-gray-500 uppercase tracking-wider"
-                    style={{
-                      textAlign: header.column.columnDef.textAlign,
-                      width: header.column.columnDef.width,
-                    }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id} className="hover:bg-indigo-100 ">
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900"
-                    style={{ textAlign: cell.column.columnDef.textAlign }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td
-                style={{ textAlign: "center" }}
-                className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900 bg-green-500"
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 mt-4">
+            <thead className="bg-indigo-50">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      className="px-6 py-3 text-left text-xs 3xl:text-sm font-medium text-gray-500 uppercase tracking-wider"
+                      style={{
+                        textAlign: header.column.columnDef.textAlign,
+                        width: header.column.columnDef.width,
+                      }}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id} className="hover:bg-indigo-100 ">
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900"
+                      style={{ textAlign: cell.column.columnDef.textAlign }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex justify-end mt-4">
+            <div className="mr-2">
+              <button
+                type="button"
+                className="border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-4 rounded"
+                onClick={openModalDelete}
               >
-                Total
-              </td>
-              <td
-                style={{ textAlign: "center" }}
-                className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900 bg-green-500"
-              >
-                S/.{total}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+                Completar Venta
+              </button>
+            </div>
+
+            <div
+              style={{ textAlign: "center" }}
+              className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900 bg-green-500"
+            >
+              Total
+            </div>
+            <div
+              style={{ textAlign: "center" }}
+              className="px-6 py-4 whitespace-nowrap text-sm 3xl:text-lg font-medium text-gray-900 bg-green-500"
+            >
+              S/.{total}
+            </div>
+          </div>
+        </div>
       </form>
+      <Modal isOpen={isOpenModalDelete}>
+        <DeleteForm
+          isDelete={true}
+          header="Completar Venta"
+          body={`Estas seguro de completar esta venta?. `}
+          closeModal={closeModalDelete}
+          fetchDelete={() =>
+            apiCall("post", `${urlClienteApi}`, data)
+          }
+        />
+      </Modal>
     </div>
   );
 };

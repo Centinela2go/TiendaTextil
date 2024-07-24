@@ -70,9 +70,12 @@ const ProductoForm = ({
                   <CustomCombobox
                     name={field.name}
                     value={field.state.value}
-                    onChange={(value) => field.handleChange(value)}
+                    onChange={(value) => field.handleChange(value.id)}
                     placeholder="Seleccione producto almacen"
                     apiUrl={"http://127.0.0.1:8000/api/almacen/producto/"}
+                    fnGetLabel={function (item) {
+                      return `${item.nombre} (${item.categoria.nombre})`;
+                    }}
                   />
                   {field.state.meta.errors && (
                     <span className="text-red-600 text-sm mt-1">

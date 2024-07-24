@@ -83,13 +83,23 @@ export default function CategoriaProductoPage() {
       if (error.response.status === 401) {
         logout();
       } else if (error.response.status === 400) {
-        const errors = error.response.data.error;
-        const firstErrorKey = Object.keys(errors)[0];
-        const firstErrorMessage = errors[firstErrorKey][0];
-        handleOpenSnackbar(
-          "error",
-          `${capitalize(firstErrorKey)}: ${firstErrorMessage}`
-        );
+        if (error.response.data.hasOwnProperty('error')){
+          const errors = error.response.data.error;
+          const firstErrorKey = Object.keys(errors)[0];
+          const firstErrorMessage = errors[firstErrorKey][0];
+          handleOpenSnackbar(
+            "error",
+            `${capitalize(firstErrorKey)}: ${firstErrorMessage}`
+          );
+        }  
+      } else if (error.response.status === 403) {
+          if (error.response.data.hasOwnProperty('detail')) {
+            
+            handleOpenSnackbar(
+              "error",
+              `${capitalize("Error")}: ${error.response.data.detail}`
+            );
+          }
       } else {
         console.error("Error fetching data:", error);
       }

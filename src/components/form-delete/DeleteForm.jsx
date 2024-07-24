@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "@tanstack/react-form";
 
-const DeleteForm = ({ row, keyHeader, header, body, closeModal, fetchDelete }) => {
+const DeleteForm = ({ row, isDelete, keyHeader, header, body, closeModal, fetchDelete }) => {
   const form = useForm({
     defaultValues: {
     },
@@ -31,7 +31,7 @@ const DeleteForm = ({ row, keyHeader, header, body, closeModal, fetchDelete }) =
         </div>
 		<div className="font-light mb-8 text-left">
 			<span>
-				{body} <strong>"{keyHeader}"</strong>
+				{body}{keyHeader &&  <strong>"{keyHeader}"</strong>}
 			</span>
 		</div>
         <div className="flex justify-between gap-2">
@@ -39,7 +39,9 @@ const DeleteForm = ({ row, keyHeader, header, body, closeModal, fetchDelete }) =
             type="submit"
             className="w-full bg-[#5D9CEC] text-white p-2 rounded hover:bg-blue-600 transition duration-200"
           >
-            Eliminar
+            {
+              !isDelete ? "Eliminar": "Confirmar"
+            }
           </button>
           <button
             type="button"
