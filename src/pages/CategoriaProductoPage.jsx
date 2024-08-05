@@ -14,7 +14,7 @@ import CustomDatatable from "../components/tables/CustomDatatable";
 const columnHelper = createColumnHelper();
 
 export default function CategoriaProductoPage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/producto/categoria/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/producto/categoria/";
   const titleButtonOpenFormAdd = "Agregar Categoria";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();

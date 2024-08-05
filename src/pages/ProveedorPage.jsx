@@ -15,7 +15,7 @@ import ProveedorForm from "../components/forms/ProveedorForm";
 const columnHelper = createColumnHelper();
 
 export default function ProveedorPage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/proveedor/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/proveedor/";
   const titleButtonOpenFormAdd = "Agregar Proveedor";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();

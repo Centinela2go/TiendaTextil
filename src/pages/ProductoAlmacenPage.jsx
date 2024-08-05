@@ -16,7 +16,7 @@ import ProductoAlmacenForm from "../components/forms/ProductoAlmacenForm";
 const columnHelper = createColumnHelper();
 
 export default function ProductoAlmacenPage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/almacen/producto/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/almacen/producto/";
   const titleButtonOpenFormAdd = "Agregar Producto";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();

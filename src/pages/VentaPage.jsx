@@ -3,7 +3,7 @@ import { useAuth } from "../security/Providers";
 import VentaForm from "../components/forms/VentaForm";
 
 export default function VentaPage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/producto/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/producto/";
   const titleButtonOpenFormAdd = "Agregar Producto";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();

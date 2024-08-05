@@ -14,7 +14,7 @@ import CustomDatatable from "../components/tables/CustomDatatable";
 const columnHelper = createColumnHelper();
 
 export default function ClientePage() {
-  const urlClienteApi = "http://127.0.0.1:8000/api/cliente/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/cliente/";
   const titleButtonOpenFormAdd = "Agregar Cliente";
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();

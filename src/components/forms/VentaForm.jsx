@@ -61,7 +61,7 @@ const VentaForm = ({
   const [data, setData] = useState([]);
   const { token, logout } = useAuth();
   const [total, setTotal] = useState(0);
-  const urlClienteApi = "http://127.0.0.1:8000/api/venta/";
+  const urlClienteApi = "https://orlando.pythonanywhere.com/api/venta/";
 
   const apiCall = async (method, url, data) => {
     var data = {"productos": data};
