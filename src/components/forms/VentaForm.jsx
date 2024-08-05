@@ -237,7 +237,7 @@ const VentaForm = ({
                       value={field.state.value}
                       onChange={(value) => field.handleChange(value)}
                       placeholder="Seleccione producto"
-                      apiUrl={"http://127.0.0.1:8000/api/producto/"}
+                      apiUrl={"https://orlando.pythonanywhere.com/api/producto/"}
                       fnGetLabel={function (item) {
                         return `${item.producto_almacen.nombre} (${item.producto_almacen.categoria.nombre})`;
                       }}
