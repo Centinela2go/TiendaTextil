@@ -122,7 +122,7 @@ const ProductoAlmacenForm = ({
                     value={field.state.value}
                     onChange={(value) => field.handleChange(value.id)}
                     placeholder="Seleccione la categoria del producto"
-                    apiUrl={"http://127.0.0.1:8000/api/producto/categoria/"}
+                    apiUrl={"https://orlando.pythonanywhere.com/api/producto/categoria/"}
                     fnGetLabel={function (item) {
                       return `${item.nombre}`;
                     }}
@@ -162,7 +162,7 @@ const ProductoAlmacenForm = ({
                     value={field.state.value}
                     onChange={(value) => field.handleChange(value.id)}
                     placeholder="Seleccione la proveedor del producto"
-                    apiUrl={"http://127.0.0.1:8000/api/proveedor/"}
+                    apiUrl={"https://orlando.pythonanywhere.com/api/proveedor/"}
                     fnGetLabel={function (item) {
                       return `${item.nombre}`;
                     }}
